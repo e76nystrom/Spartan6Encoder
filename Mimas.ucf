@@ -1,0 +1,74 @@
+net "sysClk" loc = p126;
+#TIMESpEC TS_CLK = pERIOD "CLK" 100 MHz HIGH 50%;
+
+net "led[0]" loc = p119;
+net "led[1]" loc = p118;
+net "led[2]" loc = p117;
+net "led[3]" loc = p116;
+net "led[4]" loc = p115;
+net "led[5]" loc = p114;
+net "led[6]" loc = p112;
+net "led[7]" loc = p111;
+
+net "sw0" loc = p124;
+net "sw1" loc = p123;
+net "sw2" loc = p121;
+net "sw3" loc = p120;
+
+net "sw0" pULLUp;
+net "sw1" pULLUp;
+net "sw2" pULLUp;
+net "sw3" pULLUp;
+
+net "j1_p04" loc = p34 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p06" loc = p32 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p08" loc = p29 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p10" loc = p26 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+
+net "j1_p12" loc = p23 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p14" loc = p21 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p16" loc = p16 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+net "j1_p18" loc = p14 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
+
+# net "ja1" loc = p34;
+# net "ja2" loc = p32;
+# net "ja3" loc = p29;
+# net "ja4" loc = p26;
+
+# net "jb1" loc = p23;
+# net "jb2" loc = p21;
+# net "jb3" loc = p16;
+# net "jb4" loc = p14;
+
+# net "jc1" loc = p43;
+# net "jc2" loc = p45;
+# net "jc3" loc = p47;
+# net "jc4" loc = p50;
+
+# net "jd1" loc = p55;
+# net "jd2" loc = p74;
+# net "jd3" loc = p78;
+# net "jd4" loc = p80;
+
+# net "led0" loc = p119;
+# net "led1" loc = p118;
+# net "led2" loc = p117;
+# net "led3" loc = p116;
+# net "led4" loc = p115;
+# net "led5" loc = p114;
+# net "led6" loc = p112;
+# net "led7" loc = p111;
+
+# net "an0" loc = p134;
+# net "an1" loc = p132;
+# net "an2" loc = p131;
+# net "an3" loc = p133;
+
+# net "sega" loc = p141;
+# net "segb" loc = p5;
+# net "segc" loc = p139;
+# net "segd" loc = p7;
+# net "sege" loc = p9;
+# net "segf" loc = p137;
+# net "segg" loc = p1;
+# net "dp"   loc = p11;
