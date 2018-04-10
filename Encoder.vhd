@@ -48,7 +48,12 @@ entity Encoder is
   j1_p12 : in std_logic;
   j1_p14 : out std_logic;
   j1_p16 : in std_logic;
-  j1_p18 : in std_logic
+  j1_p18 : in std_logic;
+
+  jc1 : out std_logic;
+  jc2 : out std_logic;
+  jc3 : in std_logic;
+  jc4 : in std_logic
   );
 end Encoder;
 
@@ -76,6 +81,31 @@ architecture Behavioral of Encoder is
    load : out std_logic;
    header : inout std_logic
    );
+ end component;
+
+ component ClockEnable is
+  port (
+   clk : in  std_logic;
+   ena : in  std_logic;
+   clkena : out std_logic);
+ end component;
+
+ component CmpTmr
+  generic (cycleLenBits : positive := 16;
+           encClkBits : positive := 24;
+           cycleClkbits : positive := 32);
+  port (
+  clk : in std_logic;                   --system clock
+  din : in std_logic;                   --spi data in
+  dshift : in std_logic;                --spi shift signal
+  init : in std_logic;                  --init signal
+  ena : in std_logic;                   --enable input
+  encClk : in std_logic;                --encoder clock
+  cycleSel: in std_logic;               --cycle length register select
+  startInt: in std_logic;               --start internal timer flag
+  clrStartInt: out std_logic;           --clear start timer
+  cycleClocks: inout unsigned (cycleClkBits-1 downto 0) --cycle counter
+  );
  end component;
 
  alias ja1 : std_logic is j1_p04;
@@ -116,6 +146,17 @@ architecture Behavioral of Encoder is
  signal op : unsigned(opb-1 downto 0);  --operation code
  signal outReg : unsigned(out_bits-1 downto 0); --output register
  signal header : std_logic;
+
+ -- cmpTmr
+
+ constant cycleLenBits : positive := 16;
+ constant encClkBits : positive := 24;
+ constant cycleClkBits : positive := 32;
+ signal encClk : std_logic;
+ signal cycleSel : std_logic;
+ signal startInt : std_logic;
+ signal clrStartInt : std_logic := '0';
+ signal cycleClocks : unsigned(cycleClkBits-1 downto 0);
 
 begin
 
@@ -160,6 +201,14 @@ begin
   end if;
  end process;
 
+ -- test clock
+
+ testEncClk : ClockEnable
+  port map (
+   clk => clk1,
+   ena => div(20),
+   clkena =>encClk);
+
  -- spi interface
 
  spi_int : SPI
@@ -189,6 +238,8 @@ begin
     case op is
      when x"00" => 
       outReg <= (out_bits-1 downto 0 => '0');
+     when x"01" =>
+      outReg <= cycleClocks;
      when others =>
       outReg <= x"55aa55aa";
     end case;
@@ -200,6 +251,27 @@ begin
   end if;
  end process;
 
+ cycleSel <= '1' when (op = x"00") else '0';
  
-end Behavioral;
+  cmp_tmr : CmpTmr
+  generic map (cycleLenBits => cycleLenBits,
+               encClkBits => encClkBits,
+               cycleClkbits => cycleClkBits)
+  port map (
+   clk => clk1,
+   din => din,
+   dshift => dshift,
+   init => jc4,
+   ena => jc3,
+   encClk => encClk,
+   cycleSel => cycleSel,
+   startInt => startInt,
+   clrStartInt => clrStartInt,
+   cycleClocks => cycleClocks
+   );
 
+ jc1 <= cycleClocks(31);
+ jc2 <= clrStartInt;
+ startInt <= jc4;
+
+end Behavioral;

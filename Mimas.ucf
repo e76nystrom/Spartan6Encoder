@@ -40,10 +40,10 @@ net "j1_p18" loc = p14 | IOSTANDARD = LVCMOS33 | DRIVE = 8;
 # net "jb3" loc = p16;
 # net "jb4" loc = p14;
 
-# net "jc1" loc = p43;
-# net "jc2" loc = p45;
-# net "jc3" loc = p47;
-# net "jc4" loc = p50;
+net "jc1" loc = p43;
+net "jc2" loc = p45;
+net "jc3" loc = p47;
+net "jc4" loc = p50;
 
 # net "jd1" loc = p55;
 # net "jd2" loc = p74;
