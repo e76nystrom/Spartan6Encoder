@@ -84,7 +84,7 @@ ARCHITECTURE behavior OF CmpTmrTest IS
 
  procedure delay(constant n : in integer) is
  begin
-  for i in 0 to n loop
+  for i in 0 to n-1 loop
    wait until clk = '1';
    wait until clk = '0';
   end loop;
@@ -131,6 +131,12 @@ BEGIN
 
   -- insert stimulus here
 
+  init <= '1';
+  ena <= '0';
+
+  delay(5);
+
+  init <= '0';
   encCycle := 5;
 
   tmp <= to_signed(5, cycleLenBits);
@@ -145,25 +151,46 @@ BEGIN
   dshift <= '0';
   cycleSel <= '0';
 
-  init <= '1';
-  ena <= '0';
-
   delay(5);
 
-  init <= '0';
-
-  delay(5);
-
-  ena <= '1';
   startInt <= '1';
 
   delay(10);
 
-  for j in 0 to 40 loop
-   encClk <= '1';
-   delay(2);
+  ena <= '1';
+  for j in 0 to 40-1 loop
+   delay(9);
+   -- wait until clk = '1';                --1
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --2
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --3
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --4
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --5
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --6
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --7
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --8
+   -- wait until clk = '0';
+
+   -- wait until clk = '1';                --9
+   -- wait until clk = '0';
+
+   encClk <= '1'; 
+   wait until clk = '1';                --10
    encClk <= '0';
-   delay(10);
+   wait until clk = '0';
   end loop;
 
   wait;

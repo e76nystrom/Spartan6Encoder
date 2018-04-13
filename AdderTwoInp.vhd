@@ -4,7 +4,7 @@
 -- 
 -- Create Date:    17:34:36 01/24/2015 
 -- Design Name: 
--- Module Name:    AccumPlusClr - Behavioral 
+-- Module Name:    AdderTwoInp - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,30 +29,30 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity AccumPlusClr is
- generic (n : positive);
+entity AdderTwoInp is
+ generic (n : positive := 32);
  port ( clk : in std_logic;
         clr : in std_logic;
         ena : in std_logic;
         a : in unsigned (n-1 downto 0);
-        sum : inout unsigned (n-1 downto 0));
-end AccumPlusClr;
+        b : in unsigned (n-1 downto 0);
+        sum : out  unsigned (n-1 downto 0));
+end AdderTwoInp;
 
-architecture Behavioral of AccumPlusClr is
+architecture Behavioral of AdderTwoInp is
 
 begin
 
- accumulator: process(clk)
+ AdderTwoInp: process(clk)
  begin
   if (rising_edge(clk)) then
    if (clr = '1') then
     sum <= (n-1 downto 0 => '0');
-   else
-    if (ena = '1') then
-     sum <= sum + a;
-    end if;
+   elsif (ena = '1') then
+    sum <= a + b;
    end if;
   end if;
- end process accumulator;
+ end process AdderTwoInp;
 
 end Behavioral;
+

@@ -108,6 +108,24 @@ architecture Behavioral of Encoder is
   );
  end component;
 
+ component IntTmr is
+  generic (cycleLenBits : positive := 16;
+           encClkBits : positive := 24;
+           cycleClkbits : positive := 32);
+  port (
+   clk : in std_logic;                 --system clock
+   din : in std_logic;                 --spi data in
+   dshift : in std_logic;              --spi shift in
+   init : in std_logic;                --init signal
+   ena : in std_logic;                 --enable signal
+   intClk : out std_logic;             --output clock
+   cycleSel : in std_logic;            --cycle length register select
+   startInt : in std_logic;            --start internal timer flag
+   setStartInt : out std_logic;        --set start internal timer flag
+   cycleClocks: in unsigned (cycleClkBits-1 downto 0) --cycle counter
+   );
+ end component;
+
  alias ja1 : std_logic is j1_p04;
  alias ja2 : std_logic is j1_p06;
  alias ja3 : std_logic is j1_p08;
@@ -147,16 +165,27 @@ architecture Behavioral of Encoder is
  signal outReg : unsigned(out_bits-1 downto 0); --output register
  signal header : std_logic;
 
+ signal init : std_logic;
+
  -- cmpTmr
 
  constant cycleLenBits : positive := 16;
  constant encClkBits : positive := 24;
  constant cycleClkBits : positive := 32;
  signal encClk : std_logic;
- signal cycleSel : std_logic;
+ signal cmpCycleSel : std_logic;
+ signal cycleClocks : unsigned(cycleClkBits-1 downto 0);
+
+ -- intTmr
+
+ signal intClk : std_logic;
+ signal intCycleSel : std_logic;
+
+ -- start internal timer
+
  signal startInt : std_logic;
  signal clrStartInt : std_logic := '0';
- signal cycleClocks : unsigned(cycleClkBits-1 downto 0);
+ signal setStartInt : std_logic := '0';
 
 begin
 
@@ -181,6 +210,8 @@ begin
  jb2  <= dout;
  din  <= jb3;
  dsel <= jb4;
+
+ init <= jc4;
 
  -- system clock
 
@@ -251,7 +282,20 @@ begin
   end if;
  end process;
 
- cycleSel <= '1' when (op = x"00") else '0';
+ start_process: process(clk1)
+ begin
+  if (rising_edge(clk1)) then           --if clock active
+   if (init = '1') then
+    startInt <= '1';
+   elsif (setStartInt = '1') then
+    startInt <= '1';
+   elsif (clrStartInt = '1') then
+    startInt <= '0';
+   end if;
+  end if;
+ end process;
+
+ cmpCycleSel <= '1' when (op = x"00") else '0';
  
   cmp_tmr : CmpTmr
   generic map (cycleLenBits => cycleLenBits,
@@ -261,17 +305,34 @@ begin
    clk => clk1,
    din => din,
    dshift => dshift,
-   init => jc4,
+   init => init,
    ena => jc3,
    encClk => encClk,
-   cycleSel => cycleSel,
+   cycleSel => cmpCycleSel,
    startInt => startInt,
    clrStartInt => clrStartInt,
    cycleClocks => cycleClocks
    );
 
+ intCycleSel <= '1' when (op = x"00") else '0';
+
+ int_tmr : IntTmr
+  generic map (cycleLenBits => cycleLenBits,
+               encClkBits => encClkBits,
+               cycleClkbits => cycleClkBits)
+  port map (
+   clk => clk1,
+   din => din,
+   dshift => dshift,
+   init => init,
+   ena => jc3,
+   intClk => intClk,
+   cycleSel => intCycleSel,
+   startInt => startInt,
+   setStartInt => setStartInt,
+   cycleClocks => cycleClocks
+   );
+
  jc1 <= cycleClocks(31);
- jc2 <= clrStartInt;
- startInt <= jc4;
 
 end Behavioral;

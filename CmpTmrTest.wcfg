@@ -17,7 +17,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="23" />
+   <WVObjectSize size="19" />
    <wvobject fp_name="/cmptmrtest/clk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clk</obj_property>
       <obj_property name="ObjectShortName">clk</obj_property>
@@ -42,6 +42,14 @@
       <obj_property name="ElementShortName">encclk</obj_property>
       <obj_property name="ObjectShortName">encclk</obj_property>
    </wvobject>
+   <wvobject fp_name="/cmptmrtest/uut/enastate" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">enastate</obj_property>
+      <obj_property name="ObjectShortName">enastate</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cmptmrtest/uut/clkctrena" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clkctrena</obj_property>
+      <obj_property name="ObjectShortName">clkctrena</obj_property>
+   </wvobject>
    <wvobject fp_name="/cmptmrtest/cyclesel" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">cyclesel</obj_property>
       <obj_property name="ObjectShortName">cyclesel</obj_property>
@@ -63,14 +71,6 @@
       <obj_property name="ObjectShortName">enccycle[15:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/loadcycctr" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">loadcycctr</obj_property>
-      <obj_property name="ObjectShortName">loadcycctr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/updlencount" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">updlencount</obj_property>
-      <obj_property name="ObjectShortName">updlencount</obj_property>
-   </wvobject>
    <wvobject fp_name="/cmptmrtest/uut/enccount" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">enccount[15:0]</obj_property>
       <obj_property name="ObjectShortName">enccount[15:0]</obj_property>
@@ -81,42 +81,23 @@
       <obj_property name="ObjectShortName">clockcounter[23:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/cycctrclr" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">cycctrclr</obj_property>
-      <obj_property name="ObjectShortName">cycctrclr</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/accumclocks" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">accumclocks</obj_property>
-      <obj_property name="ObjectShortName">accumclocks</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/clrclocktotal" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">clrclocktotal</obj_property>
-      <obj_property name="ObjectShortName">clrclocktotal</obj_property>
+   <wvobject fp_name="/cmptmrtest/uut/encoderclocks" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">encoderclocks[23:0]</obj_property>
+      <obj_property name="ObjectShortName">encoderclocks[23:0]</obj_property>
+      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
    <wvobject fp_name="/cmptmrtest/uut/clocktotal" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">clocktotal[31:0]</obj_property>
       <obj_property name="ObjectShortName">clocktotal[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
    </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/multena" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">multena</obj_property>
-      <obj_property name="ObjectShortName">multena</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/encoderclocks" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">encoderclocks[23:0]</obj_property>
-      <obj_property name="ObjectShortName">encoderclocks[23:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/cmptmrtest/uut/tmp" type="array" db_ref_id="1">
-      <obj_property name="DisplayName">label</obj_property>
-      <obj_property name="ElementShortName">tmp[31:0]</obj_property>
-      <obj_property name="ObjectShortName">tmp[31:0]</obj_property>
-      <obj_property name="label">tmp[31:0]</obj_property>
-      <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
-   </wvobject>
    <wvobject fp_name="/cmptmrtest/cycleclocks" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">cycleclocks[31:0]</obj_property>
       <obj_property name="ObjectShortName">cycleclocks[31:0]</obj_property>
       <obj_property name="Radix">UNSIGNEDDECRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/cmptmrtest/uut/cycledone" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cycledone</obj_property>
+      <obj_property name="ObjectShortName">cycledone</obj_property>
    </wvobject>
 </wave_config>

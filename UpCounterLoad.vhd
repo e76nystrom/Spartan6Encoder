@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    17:34:36 01/24/2015 
+-- Create Date:    17:33:37 01/25/2015 
 -- Design Name: 
--- Module Name:    AccumPlusClr - Behavioral 
+-- Module Name:    UpCounterLoad - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,30 +29,32 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity AccumPlusClr is
- generic (n : positive);
- port ( clk : in std_logic;
-        clr : in std_logic;
-        ena : in std_logic;
-        a : in unsigned (n-1 downto 0);
-        sum : inout unsigned (n-1 downto 0));
-end AccumPlusClr;
+entity UpCounterLoad is
+ generic(n : positive);
+ port (
+  clk : in std_logic;
+  clr : in std_logic;
+  load : in std_logic;
+  inc : in std_logic;
+  preset : in unsigned (n-1 downto 0);
+  counter : inout unsigned (n-1 downto 0));
+end UpCounterLoad;
 
-architecture Behavioral of AccumPlusClr is
+architecture Behavioral of UpCounterLoad is
 
 begin
 
- accumulator: process(clk)
+ upCounterLoad: process(clk)
  begin
   if (rising_edge(clk)) then
    if (clr = '1') then
-    sum <= (n-1 downto 0 => '0');
-   else
-    if (ena = '1') then
-     sum <= sum + a;
-    end if;
+    counter <= (n-1 downto 0 => '0');
+   elsif (load = '1') then
+    counter <= preset;
+   elsif (inc = '1') then
+    counter <= counter + 1;
    end if;
   end if;
- end process accumulator;
+ end process UpCounterLoad;
 
 end Behavioral;
