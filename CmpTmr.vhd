@@ -145,28 +145,28 @@ architecture Behavioral of CmpTmr is
  -- cycle length register
 
  signal cycleLenShift : std_logic;      --shift into cycle len register
- signal encCycle : unsigned(cycleLenBits-1 downto 0); --cycle length value
+ signal encCycle : unsigned (cycleLenBits-1 downto 0); --cycle length value
 
  -- cycle length counter
 
  signal loadCycCtr : std_logic;         --load cycle counter
  signal cycleDone : std_logic;          --encoder cycle done
- signal encCount : unsigned(cycleLenBits-1 downto 0); --cycle length counter
+ signal encCount : unsigned (cycleLenBits-1 downto 0); --cycle length counter
 
  -- clock up counter
 
  signal clkCtrClr : std_logic;          --clock counter clear
- signal clockCounter : unsigned(encClkBits-1 downto 0); --clock counter
+ signal clockCounter : unsigned (encClkBits-1 downto 0); --clock counter
 
  -- encoder clocks
 
- signal encoderClocks : unsigned(encClkBits-1 downto 0); --encoder clocks reg
+ signal encoderClocks : unsigned (encClkBits-1 downto 0); --encoder clocks reg
 
  -- counters and register for clock counting
 
  signal clrClockTotal : std_logic;      --clear clock accumulator
- signal clockTotal : unsigned(cycleClkBits-1 downto 0);  --clock accumulator
- signal encClksExt : unsigned(cycleClkBits-1 downto 0);  --enc clks extended
+ signal clockTotal : unsigned (cycleClkBits-1 downto 0);  --clock accumulator
+ signal encClksExt : unsigned (cycleClkBits-1 downto 0);  --enc clks extended
   
  -- multiplier
 

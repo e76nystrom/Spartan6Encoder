@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Development/Xilinx/Spartan6Encoder/SPITest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="numeric_std" />
+            <top_module name="spitest" />
+            <top_module name="std_logic_1164" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="21" />
+   <wvobject fp_name="/spitest/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/dclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dclk</obj_property>
+      <obj_property name="ObjectShortName">dclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/dsel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dsel</obj_property>
+      <obj_property name="ObjectShortName">dsel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/dselena" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dselena</obj_property>
+      <obj_property name="ObjectShortName">dselena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/dseldis" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dseldis</obj_property>
+      <obj_property name="ObjectShortName">dseldis</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/dseldly" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dseldly[3:0]</obj_property>
+      <obj_property name="ObjectShortName">dseldly[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/clkena" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clkena</obj_property>
+      <obj_property name="ObjectShortName">clkena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/din" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">din</obj_property>
+      <obj_property name="ObjectShortName">din</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/opreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">opreg[7:0]</obj_property>
+      <obj_property name="ObjectShortName">opreg[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/op" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">op[7:0]</obj_property>
+      <obj_property name="ObjectShortName">op[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/header" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">header</obj_property>
+      <obj_property name="ObjectShortName">header</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/uut/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[2:0]</obj_property>
+      <obj_property name="ObjectShortName">count[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/copy" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">copy</obj_property>
+      <obj_property name="ObjectShortName">copy</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/shift" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">shift</obj_property>
+      <obj_property name="ObjectShortName">shift</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/load" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">load</obj_property>
+      <obj_property name="ObjectShortName">load</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/tmp" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tmp[7:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/tmp1" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tmp1[31:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp1[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/test1_reg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">test1_reg[31:0]</obj_property>
+      <obj_property name="ObjectShortName">test1_reg[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/clkena1" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clkena1</obj_property>
+      <obj_property name="ObjectShortName">clkena1</obj_property>
+   </wvobject>
+   <wvobject fp_name="/spitest/clk_ena/clkdly" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clkdly[5:0]</obj_property>
+      <obj_property name="ObjectShortName">clkdly[5:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+</wave_config>

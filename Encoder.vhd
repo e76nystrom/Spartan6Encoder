@@ -51,7 +51,7 @@ entity Encoder is
   j1_p18 : in std_logic;
 
   jc1 : out std_logic;
-  jc2 : out std_logic;
+  jc2 : in std_logic;
   jc3 : in std_logic;
   jc4 : in std_logic
   );
@@ -75,7 +75,7 @@ architecture Behavioral of Encoder is
    dclk : in std_logic;
    dsel : in std_logic;
    din : in std_logic;
-   op : inout unsigned(op_bits-1 downto 0);
+   op : inout unsigned (op_bits-1 downto 0);
    copy : out std_logic;
    shift : out std_logic;
    load : out std_logic;
@@ -117,8 +117,7 @@ architecture Behavioral of Encoder is
    din : in std_logic;                 --spi data in
    dshift : in std_logic;              --spi shift in
    init : in std_logic;                --init signal
-   ena : in std_logic;                 --enable signal
-   intClk : out std_logic;             --output clock
+   intClk : inout std_logic;           --output clock
    cycleSel : in std_logic;            --cycle length register select
    startInt : in std_logic;            --start internal timer flag
    setStartInt : out std_logic;        --set start internal timer flag
@@ -151,7 +150,7 @@ architecture Behavioral of Encoder is
  -- clock divider
 
  constant div_range : integer := 26;
- signal div : unsigned(div_range downto 0);
+ signal div : unsigned (div_range downto 0);
 
  -- spi interface
 
@@ -161,8 +160,8 @@ architecture Behavioral of Encoder is
  signal copy : std_logic;               --copy to output register
  signal dshift : std_logic;             --shift data
  signal load : std_logic;               --load to register
- signal op : unsigned(opb-1 downto 0);  --operation code
- signal outReg : unsigned(out_bits-1 downto 0); --output register
+ signal op : unsigned (opb-1 downto 0); --operation code
+ signal outReg : unsigned (out_bits-1 downto 0); --output register
  signal header : std_logic;
 
  signal init : std_logic;
@@ -172,9 +171,10 @@ architecture Behavioral of Encoder is
  constant cycleLenBits : positive := 16;
  constant encClkBits : positive := 24;
  constant cycleClkBits : positive := 32;
+
  signal encClk : std_logic;
  signal cmpCycleSel : std_logic;
- signal cycleClocks : unsigned(cycleClkBits-1 downto 0);
+ signal cycleClocks : unsigned (cycleClkBits-1 downto 0);
 
  -- intTmr
 
@@ -186,6 +186,9 @@ architecture Behavioral of Encoder is
  signal startInt : std_logic;
  signal clrStartInt : std_logic := '0';
  signal setStartInt : std_logic := '0';
+
+ constant XLDENCCYCLE : unsigned(opb-1 downto 0) := x"01";
+ constant XLDINTCYCLE : unsigned(opb-1 downto 0) := x"02";
 
 begin
 
@@ -211,7 +214,7 @@ begin
  din  <= jb3;
  dsel <= jb4;
 
- init <= jc4;
+ init <= jc4 or jc2;
 
  -- system clock
 
@@ -295,7 +298,7 @@ begin
   end if;
  end process;
 
- cmpCycleSel <= '1' when (op = x"00") else '0';
+ cmpCycleSel <= '1' when (op = XLDENCCYCLE) else '0';
  
   cmp_tmr : CmpTmr
   generic map (cycleLenBits => cycleLenBits,
@@ -314,7 +317,7 @@ begin
    cycleClocks => cycleClocks
    );
 
- intCycleSel <= '1' when (op = x"00") else '0';
+ intCycleSel <= '1' when (op = XLDINTCYCLE) else '0';
 
  int_tmr : IntTmr
   generic map (cycleLenBits => cycleLenBits,
@@ -325,7 +328,6 @@ begin
    din => din,
    dshift => dshift,
    init => init,
-   ena => jc3,
    intClk => intClk,
    cycleSel => intCycleSel,
    startInt => startInt,
@@ -333,6 +335,6 @@ begin
    cycleClocks => cycleClocks
    );
 
- jc1 <= cycleClocks(31);
+ jc1 <= intClk;
 
 end Behavioral;

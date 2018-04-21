@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Development/Xilinx/Spartan6Encoder/IntTmrTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="inttmrtest" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="vcomponents" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="26" />
+   <wvobject fp_name="/inttmrtest/clk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clk</obj_property>
+      <obj_property name="ObjectShortName">clk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/init" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">init</obj_property>
+      <obj_property name="ObjectShortName">init</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/startint" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">startint</obj_property>
+      <obj_property name="ObjectShortName">startint</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/cycleclocks" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclocks[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclocks[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/setstartint" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">setstartint</obj_property>
+      <obj_property name="ObjectShortName">setstartint</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/tmp" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">tmp[15:0]</obj_property>
+      <obj_property name="ObjectShortName">tmp[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/initclear" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">initclear</obj_property>
+      <obj_property name="ObjectShortName">initclear</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/run" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">run</obj_property>
+      <obj_property name="ObjectShortName">run</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/intcycle" type="array" db_ref_id="1">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">intcycle[15:0]</obj_property>
+      <obj_property name="ObjectShortName">intcycle[15:0]</obj_property>
+      <obj_property name="label">intcycle[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/intctrload" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intctrload</obj_property>
+      <obj_property name="ObjectShortName">intctrload</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/intcount" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">intcount[15:0]</obj_property>
+      <obj_property name="ObjectShortName">intcount[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/cycledone" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cycledone</obj_property>
+      <obj_property name="ObjectShortName">cycledone</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/intclkupd" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intclkupd</obj_property>
+      <obj_property name="ObjectShortName">intclkupd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/cycleclkrem" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclkrem[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclkrem[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/cycleclocks" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclocks[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclocks[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/subasel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">subasel</obj_property>
+      <obj_property name="ObjectShortName">subasel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/suba" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">suba[31:0]</obj_property>
+      <obj_property name="ObjectShortName">suba[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/intcountext" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">intcountext[31:0]</obj_property>
+      <obj_property name="ObjectShortName">intcountext[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/cycleclkctr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclkctr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclkctr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/subbsel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">subbsel</obj_property>
+      <obj_property name="ObjectShortName">subbsel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/subb" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">subb[31:0]</obj_property>
+      <obj_property name="ObjectShortName">subb[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/subload" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">subload</obj_property>
+      <obj_property name="ObjectShortName">subload</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/intclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intclk</obj_property>
+      <obj_property name="ObjectShortName">intclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/clks" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clks[7:0]</obj_property>
+      <obj_property name="ObjectShortName">clks[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/cycles" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycles[7:0]</obj_property>
+      <obj_property name="ObjectShortName">cycles[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/inttmrtest/uut/setstartint" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">setstartint</obj_property>
+      <obj_property name="ObjectShortName">setstartint</obj_property>
+   </wvobject>
+</wave_config>

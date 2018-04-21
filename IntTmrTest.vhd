@@ -2,15 +2,15 @@
 -- Company: 
 -- Engineer:
 --
--- Create Date:   19:59:12 04/09/2018
+-- Create Date:   07:53:15 04/19/2018
 -- Design Name:   
--- Module Name:   C:/Development/Xilinx/Spartan6Encoder/CmpTmrTest.vhd
+-- Module Name:   C:/Development/Xilinx/Spartan6Encoder/IntTmrTest.vhd
 -- Project Name:  Spartan6Encoder
 -- Target Device:  
 -- Tool versions:  
 -- Description:   
 -- 
--- VHDL Test Bench Created by ISE for module: CmpTmr
+-- VHDL Test Bench Created by ISE for module: IntTmr
 -- 
 -- Dependencies:
 -- 
@@ -27,58 +27,61 @@
 --------------------------------------------------------------------------------
 LIBRARY ieee;
 USE ieee.std_logic_1164.ALL;
-
+ 
 -- Uncomment the following library declaration if using
 -- arithmetic functions with Signed or Unsigned values
 USE ieee.numeric_std.ALL;
+ 
+ENTITY IntTmrTest IS
+END IntTmrTest;
 
-ENTITY CmpTmrTest IS
-END CmpTmrTest;
-
-ARCHITECTURE behavior OF CmpTmrTest IS 
+ARCHITECTURE behavior OF IntTmrTest IS 
  
  -- Component Declaration for the Unit Under Test (UUT)
  
- component CmpTmr
+ COMPONENT IntTmr
   generic (cycleLenBits : positive;
-           encClkBits : positive;
-           cycleClkbits : positive);
-  port(
-   clk : in  std_logic;
-   din : in  std_logic;
-   dshift : in  std_logic;
-   init : in  std_logic;
-   ena : in  std_logic;
-   encClk : in  std_logic;
-   cycleSel : in  std_logic;
-   startInt : in  std_logic;
-   clrStartInt : out  std_logic;
-   cycleClocks : inout unsigned (cycleClkBits-1 downto 0)
+   encClkBits : positive;
+   cycleClkbits : positive);
+  PORT(
+   clk : IN  std_logic;
+   din : IN  std_logic;
+   dshift : IN  std_logic;
+   init : IN  std_logic;
+   intClk : out  std_logic;
+   cycleSel : IN  std_logic;
+   startInt : IN  std_logic;
+   setStartInt : OUT  std_logic;
+   cycleClocks : IN  unsigned(cycleClkBits-1 downto 0)
    );
- end component;
-
+ END COMPONENT;
+ 
  constant cycleLenBits : positive := 16;
  constant encClkBits : positive := 24;
  constant cycleClkbits : positive := 32;
+
+ constant cycleCount : positive := 10;
+ constant cycleLen : positive := 105;
+ constant intCycle : positive := 10;
+
+ constant counterBits : positive := 8;
 
  --Inputs
  signal clk : std_logic := '0';
  signal din : std_logic := '0';
  signal dshift : std_logic := '0';
  signal init : std_logic := '0';
- signal ena : std_logic := '0';
- signal encClk : std_logic := '0';
  signal cycleSel : std_logic := '0';
  signal startInt : std_logic := '0';
-
- --BiDirs
- signal cycleClocks : unsigned (cycleClkBits-1 downto 0);
+ signal cycleClocks : unsigned(cycleClkBits-1 downto 0) := (others => '0');
 
  --Outputs
- signal clrStartInt : std_logic;
+ signal intClk : std_logic;
+ signal setStartInt : std_logic;
 
  -- Clock period definitions
  constant clk_period : time := 10 ns;
+ constant intClk_period : time := 10 ns;
  
  signal tmp : signed(cycleLenBits-1 downto 0);
 
@@ -90,27 +93,27 @@ ARCHITECTURE behavior OF CmpTmrTest IS
   end loop;
  end procedure delay;
 
- shared variable encCycle : integer;
+ signal clks : unsigned(counterBits-1 downto 0);
+ signal cycles : unsigned(counterBits-1 downto 0);
 
 BEGIN
  
  -- Instantiate the Unit Under Test (UUT)
- uut: CmpTmr
-  generic map(cycleLenBits => cycleLenBits,
+ uut: IntTmr
+    generic map(cycleLenBits => cycleLenBits,
               encClkBits => encClkBits,
               cycleClkbits => cycleClkBits)
-  port map (
-   clk => clk,
-   din => din,
-   dshift => dshift,
-   init => init,
-   ena => ena,
-   encClk => encClk,
-   cycleSel => cycleSel,
-   startInt => startInt,
-   clrStartInt => clrStartInt,
-   cycleClocks => cycleClocks
-   );
+  PORT MAP (
+  clk => clk,
+  din => din,
+  dshift => dshift,
+  init => init,
+  intClk => intClk,
+  cycleSel => cycleSel,
+  startInt => startInt,
+  setStartInt => setStartInt,
+  cycleClocks => cycleClocks
+  );
 
  -- Clock process definitions
  clk_process :process
@@ -120,8 +123,8 @@ BEGIN
   clk <= '1';
   wait for clk_period/2;
  end process;
-
- -- Stimulus process
+ 
+  -- Stimulus process
  stim_proc: process
  begin		
   -- hold reset state for 100 ns.
@@ -129,17 +132,15 @@ BEGIN
 
   wait for clk_period*10;
 
-  -- insert stimulus here
-
-  init <= '1';
-  ena <= '0';
+  -- insert stimulus here 
 
   delay(5);
 
   init <= '0';
-  encCycle := 5;
 
-  tmp <= to_signed(encCycle, cycleLenBits);
+  cycleClocks <= to_unsigned(cycleLen-1, cycleClkBits);
+
+  tmp <= to_signed(intCycle, cycleLenBits);
   cycleSel <= '1';
   dshift <= '1';
   for i in 0 to cycleLenBits loop
@@ -153,44 +154,27 @@ BEGIN
 
   delay(5);
 
+  init <= '1';
+
+  delay(5);
+
+  init <= '0';  
   startInt <= '1';
 
-  delay(10);
+  delay(5);
 
-  ena <= '1';
-  for j in 0 to 40-1 loop
-   delay(9);
-   -- wait until clk = '1';                --1
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --2
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --3
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --4
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --5
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --6
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --7
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --8
-   -- wait until clk = '0';
-
-   -- wait until clk = '1';                --9
-   -- wait until clk = '0';
-
-   encClk <= '1'; 
-   wait until clk = '1';                --10
-   encClk <= '0';
-   wait until clk = '0';
+  cycles <= to_unsigned(0, counterBits);
+  for i in 0 to cycleCount-1 loop
+   clks <= to_unsigned(0, counterBits);
+   startInt <= '0';
+   for j in 0 to cycleLen-1 loop
+    if (setStartInt = '1') then
+     startInt <= '1';
+    end if;
+    delay(1);
+    clks <= clks + to_unsigned(1, counterBits);
+   end loop;
+   cycles <= cycles + to_unsigned(1, counterBits);
   end loop;
 
   wait;

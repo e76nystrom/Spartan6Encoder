@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="C:/Development/Xilinx/Spartan6Encoder/EncoderTest_isim_beh.wdb" id="1" type="auto">
+         <top_modules>
+            <top_module name="bip_utils_pkg_v2_0" />
+            <top_module name="encodertest" />
+            <top_module name="mult_gen_pkg_v11_2" />
+            <top_module name="numeric_std" />
+            <top_module name="std_logic_1164" />
+            <top_module name="std_logic_arith" />
+            <top_module name="std_logic_signed" />
+            <top_module name="std_logic_unsigned" />
+            <top_module name="textio" />
+            <top_module name="vcomponents" />
+            <top_module name="vital_primitives" />
+            <top_module name="vital_timing" />
+            <top_module name="vpkg" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <WVObjectSize size="24" />
+   <wvobject fp_name="/encodertest/sysclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">sysclk</obj_property>
+      <obj_property name="ObjectShortName">sysclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/dclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dclk</obj_property>
+      <obj_property name="ObjectShortName">dclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/din" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">din</obj_property>
+      <obj_property name="ObjectShortName">din</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/dsel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dsel</obj_property>
+      <obj_property name="ObjectShortName">dsel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/parmidx" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">parmidx[7:0]</obj_property>
+      <obj_property name="ObjectShortName">parmidx[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/parmval" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">parmval[15:0]</obj_property>
+      <obj_property name="ObjectShortName">parmval[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/header" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">header</obj_property>
+      <obj_property name="ObjectShortName">header</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/clkena" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clkena</obj_property>
+      <obj_property name="ObjectShortName">clkena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/state" type="other" db_ref_id="1">
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/opreg" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">opreg[7:0]</obj_property>
+      <obj_property name="ObjectShortName">opreg[7:0]</obj_property>
+      <obj_property name="Radix">HEXRADIX</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/count" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">count[2:0]</obj_property>
+      <obj_property name="ObjectShortName">count[2:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/op" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">op[7:0]</obj_property>
+      <obj_property name="ObjectShortName">op[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmpcyclesel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cmpcyclesel</obj_property>
+      <obj_property name="ObjectShortName">cmpcyclesel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/intcyclesel" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intcyclesel</obj_property>
+      <obj_property name="ObjectShortName">intcyclesel</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/load" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">load</obj_property>
+      <obj_property name="ObjectShortName">load</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/dshift" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dshift</obj_property>
+      <obj_property name="ObjectShortName">dshift</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/dout" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dout</obj_property>
+      <obj_property name="ObjectShortName">dout</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/enccycle" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">enccycle[15:0]</obj_property>
+      <obj_property name="ObjectShortName">enccycle[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/intcycle" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">intcycle[15:0]</obj_property>
+      <obj_property name="ObjectShortName">intcycle[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/op" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">op[7:0]</obj_property>
+      <obj_property name="ObjectShortName">op[7:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/dselena" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dselena</obj_property>
+      <obj_property name="ObjectShortName">dselena</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/dseldis" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">dseldis</obj_property>
+      <obj_property name="ObjectShortName">dseldis</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/spi_int/dseldly" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">dseldly[3:0]</obj_property>
+      <obj_property name="ObjectShortName">dseldly[3:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/cyclelenshift" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cyclelenshift</obj_property>
+      <obj_property name="ObjectShortName">cyclelenshift</obj_property>
+   </wvobject>
+</wave_config>

@@ -35,11 +35,9 @@ entity IntTmr is
           cycleClkbits : positive := 32);
  port (
   clk : in std_logic;                   --system clock
-
   din : in std_logic;                   --spi data in
   dshift : in std_logic;                --spi shift in
   init : in std_logic;                  --init signal
-  ena : in  std_logic;                  --enable signal
   intClk : out std_logic;               --output clock
   cycleSel : in std_logic;              --cycle length register select
   startInt : in std_logic;              --start internal timer flag
@@ -59,7 +57,7 @@ architecture Behavioral of IntTmr is
    data : inout unsigned (n-1 downto 0));
  end component;
 
- component DownCounter is
+ component DownCounterOne is
   generic(n : positive);
   port (
    clk : in std_logic;
@@ -67,38 +65,94 @@ architecture Behavioral of IntTmr is
    load : in std_logic;
    preset : in unsigned (n-1 downto 0);
    counter : inout  unsigned (n-1 downto 0);
-   zero : out std_logic);
+   one : out std_logic);
  end component;
 
- component div_gen_v4_0 is
+ component UpCounter is
+  generic(n : positive);
   port (
-   aclk : in std_logic := 'X'; 
-   s_axis_divisor_tvalid : in std_logic := 'X'; 
-   s_axis_dividend_tvalid : in std_logic := 'X'; 
-   s_axis_divisor_tready : out std_logic; 
-   s_axis_dividend_tready : out std_logic; 
-   m_axis_dout_tvalid : out std_logic; 
-   s_axis_divisor_tdata : in std_logic_vector( 15 downto 0 ); 
-   s_axis_dividend_tdata : in std_logic_vector( 31 downto 0 ); 
-   m_axis_dout_tdata : out std_logic_vector( 31 downto 0 ) 
-   );
+   clk : in std_logic;
+   clr : in std_logic;
+   ena : in std_logic;
+   counter : inout  unsigned (n-1 downto 0));
  end component;
 
- -- int statue machine
+ component CompareEq is
+  generic (n : positive);
+  port (
+   a : in unsigned (n-1 downto 0);
+   b : in unsigned (n-1 downto 0);
+   cmp : out std_logic);
+ end component;
 
- type fsm is (idle, start, chkCycCtr, calcPer0, calcPer1)
- signal state : fsm := idle;
+ component DataSel2 is
+  generic(n : positive);
+  port ( sel : in std_logic;
+         data0 : in unsigned (n-1 downto 0);
+         data1 : in unsigned (n-1 downto 0);
+         data_out : out unsigned (n-1 downto 0));
+ end component;
+
+ component Subtractor is
+  generic (n : positive);
+  port (
+   clk : in std_logic;
+   load : in std_logic;
+   ena : in std_logic;
+   a : in unsigned (n-1 downto 0);
+   b : in unsigned (n-1 downto 0);
+   diff : inout unsigned (n-1 downto 0));
+ end component;
+
+ component CompareLE is
+  generic (n : positive);
+  port (
+   a : in  unsigned (n-1 downto 0);
+   b : in  unsigned (n-1 downto 0);
+   cmp : out std_logic);
+ end component;
+
+ signal initClear : std_logic;
+ signal run : std_logic;
 
  -- cycle length register
 
  signal cycleLenShift : std_logic;      --shift into cycle len register
- signal intCycle : unsigned(cycleLenBits-1 downto 0); --cycle length value
+ signal intCycle : unsigned (cycleLenBits-1 downto 0); --cycle length value
 
  -- cycle length counter
 
- signal loadCycCtr : std_logic;         --load cycle counter
- signal cycleDone : std_logic;          --encoder cycle done
- signal intCount : unsigned(cycleLenBits-1 downto 0); --cycle length counter
+ signal intCount : unsigned (cycleLenBits-1 downto 0); --cycle length counter
+ signal intCountExt : unsigned (cycleClkBits-1 downto 0); --cycle length counter
+ signal cycleDone : std_logic;
+
+ -- clocks in cycle
+
+ -- signal intClocks : unsigned (encClkBits-1 downto 0);
+
+ -- counter for clocks in cycle
+
+ -- signal intClkCtr : unsigned (encClkBits-1 downto 0);
+
+ -- cycle clock counter
+
+ signal intCtrLoad : std_logic;
+ signal cycCalcUpd : std_logic;
+ signal cycleClkClr : std_logic;
+ signal cycleClkCtr : unsigned (cycleClkBits-1 downto 0);
+
+ -- subtractor
+
+ signal subASel : std_logic;
+ signal subBSel : std_logic;
+ signal subLoad: std_logic;
+ signal subA : unsigned (cycleClkBits-1 downto 0);
+ signal subB : unsigned (cycleClkBits-1 downto 0);
+ signal cycleClkRem : unsigned (cycleClkBits-1 downto 0);
+
+ -- comparator
+
+ signal intClkUpd : std_logic;
 
 begin
 
@@ -111,36 +165,86 @@ begin
    shift => cycleLenShift,
    din => din,
    data => intCycle);
+ 
+ intCtrLoad <= initClear or cycleDone or (not run);
 
- clkCtrClr <= initClear or encPulseUpd;
-
- intCounter: DownCounter                --counter for cycle length
+ intCounter: DownCounterOne             --counter for cycle length
   generic map(cycleLenBits)
   port map(
    clk => clk,
-   ena => cycCalcUpd,
-   load => loadCycCtr,
-   preset => intcCycle,
+   ena => intClkUpd,
+   load => intCtrLoad,
+   preset => intCycle,
    counter => intCount,
-   zero => cycleDone);
+   one => cycleDone);
 
-  int_process: process(clk)
+ cycleClkClr <= cycleDone or initClear or (not run);
+
+ clkCtr: UpCounter
+  generic map(cycleClkBits)
+  port map(
+   clk => clk,
+   clr => cycleClkClr,
+   ena => '1',
+   counter => cycleClkCtr);
+
+ subASel <= cycleDone or intClkUpd or initClear or (not run);
+
+ dataSelA: DataSel2
+  generic map(cycleClkBits)
+  port map(
+   sel => subASel,
+   data0 => cycleClkRem,
+   data1 => cycleClocks,
+   data_out => subA);
+
+ intCountExt <= (cycleClkBits-1 downto cycleLenBits => '0') & intCount;
+
+ subBSel <= initClear or intClkUpd or (not run);
+
+ dataSelB: DataSel2
+  generic map(cycleClkBits)
+  port map(
+   sel => subBSel,
+   data0 => intCountExt,
+   data1 => cycleClkCtr,
+   data_out => subB);
+
+ subLoad <= initClear or (not run);
+
+ cycRem: Subtractor
+  generic map(cycleClkBits)
+  port map (
+   clk => clk,
+   load => subLoad,
+   ena => '1',
+   a => subA,
+   b => subB,
+   diff => cycleClkRem);
+
+ cmpLE: CompareLE
+  generic map(cycleClkBits)
+  port map(
+   a => cycleClkRem,
+   b => intCountExt,
+   cmp => intClkUpd);
+
+ int_process: process(clk)
  begin
   if (rising_edge(clk)) then            --if clock active
    if (init = '1') then                 --initialize variables
+    initClear <= '1';
+    run <= '0';
    else
-   case state is                        --select state
-    when idle =>                        --idle
-
-    when start =>                       --wait for staryt
-
-    when chkCycCtr =>                   --check cycle counter
-
-    when calcPer0 =>                    --calculate period part1
-
-    when calcPer1 =>                    --calculate period part2
-     
-   end case;
+    initClear <= '0';
+    if (startInt = '0') and (run = '0') then
+     run <= '1';
+    elsif (cycleDone = '1') then
+     run <= '0';
+    end if;
+    intClk <= intClkUpd or (not startInt and not run);
+    setStartInt <= cycleDone;
+   end if;
   end if;
  end process;
 

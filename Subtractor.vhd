@@ -4,7 +4,7 @@
 -- 
 -- Create Date:    17:34:36 01/24/2015 
 -- Design Name: 
--- Module Name:    Divider - Behavioral 
+-- Module Name:    Subtractor - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,30 +29,32 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Divider is
- generic (nBits : positive;
-          dBits : positive;
-          qBits : positive);
-  port (
-   clk : in std_logic;
-   ena : in std_logic;
-   done: out std_logic;
-   n : in std_logic_vector(nBits-1 downto 0);
-   d: in std_logic_vector(dBits-1 downto 0);
-   q : out std_logic_vector(qBits-1 downto 0));
-end Divider;
+entity Subtractor is
+ generic (n : positive);
+ port (
+  clk : in std_logic;
+  load : in std_logic;
+  ena : in std_logic;
+  a : in unsigned (n-1 downto 0);
+  b : in unsigned (n-1 downto 0);
+  diff : inout unsigned (n-1 downto 0));
+end Subtractor;
 
-architecture Behavioral of Divider is
+architecture Behavioral of Subtractor is
 
 begin
 
- divProcess: process(clk)
+ Subtractor: process(clk)
  begin
   if (rising_edge(clk)) then
-   if (ena = '1') then
-    
+   if (load = '1') then
+    diff <= a;
+   else
+    if (ena = '1') then
+     diff <= a - b;
+    end if;
    end if;
   end if;
- end process divProcess;
+ end process Subtractor;
 
 end Behavioral;

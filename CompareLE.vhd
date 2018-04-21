@@ -2,9 +2,9 @@
 -- Company: 
 -- Engineer: 
 -- 
--- Create Date:    17:34:36 01/24/2015 
+-- Create Date:    17:07:54 01/25/2015 
 -- Design Name: 
--- Module Name:    Divider - Behavioral 
+-- Module Name:    CompareLE - Behavioral 
 -- Project Name: 
 -- Target Devices: 
 -- Tool versions: 
@@ -29,30 +29,24 @@ use IEEE.NUMERIC_STD.ALL;
 --library UNISIM;
 --use UNISIM.VComponents.all;
 
-entity Divider is
- generic (nBits : positive;
-          dBits : positive;
-          qBits : positive);
-  port (
-   clk : in std_logic;
-   ena : in std_logic;
-   done: out std_logic;
-   n : in std_logic_vector(nBits-1 downto 0);
-   d: in std_logic_vector(dBits-1 downto 0);
-   q : out std_logic_vector(qBits-1 downto 0));
-end Divider;
+entity CompareLE is
+ generic (n : positive);
+ port ( a : in  unsigned (n-1 downto 0);
+        b : in  unsigned (n-1 downto 0);
+        cmp : out std_logic);
+end CompareLE;
 
-architecture Behavioral of Divider is
+architecture Behavioral of CompareLE is
 
 begin
 
- divProcess: process(clk)
- begin
-  if (rising_edge(clk)) then
-   if (ena = '1') then
-    
-   end if;
-  end if;
- end process divProcess;
+compare: process(a, b)
+begin
+ if (a <= b) then
+  cmp <= '1';
+ else
+  cmp <= '0';
+ end if;
+end process compare;
 
 end Behavioral;
