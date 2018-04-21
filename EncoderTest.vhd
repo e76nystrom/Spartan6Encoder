@@ -56,7 +56,7 @@ ARCHITECTURE behavior OF EncoderTest IS
    j1_p16 : in  std_logic;
    j1_p18 : in  std_logic;
    jc1 : out  std_logic;
-   jc2 : in  std_logic;
+   jc2 : out  std_logic;
    jc3 : in  std_logic;
    jc4 : in  std_logic
    );
@@ -71,7 +71,6 @@ ARCHITECTURE behavior OF EncoderTest IS
  signal j1_p12 : std_logic := '0';
  signal j1_p16 : std_logic := '0';
  signal j1_p18 : std_logic := '0';
- signal jc2 : std_logic := '0';
  signal jc3 : std_logic := '0';
  signal jc4 : std_logic := '0';
 
@@ -83,6 +82,7 @@ ARCHITECTURE behavior OF EncoderTest IS
  signal j1_p10 : std_logic;
  signal j1_p14 : std_logic;
  signal jc1 : std_logic;
+ signal jc2 : std_logic;
 
  -- Clock period definitions
  constant sysClk_period : time := 10 ns;
@@ -110,13 +110,12 @@ ARCHITECTURE behavior OF EncoderTest IS
  constant cycleClkBits : positive := 32;
 
  constant encCycle : positive := 5;
- constant intCycle : unsigned(cycleLenBits-1 downto 0) := to_unsigned(4, cycleLenBits);
+ constant intCycle : positive := 4;
 
  shared variable op : integer;
  constant opb : positive := 8;
 
--- constant XLDENCCYCLE : unsigned(opb-1 downto 0) := x"01";
- constant XLDENCCYCLE : unsigned(opb-1 downto 0) := x"55";
+ constant XLDENCCYCLE : unsigned(opb-1 downto 0) := x"01";
  constant XLDINTCYCLE : unsigned(opb-1 downto 0) := x"02";
 
  signal parmIdx : unsigned(opb-1 downto 0) :=  (opb-1 downto 0 => '0');
@@ -185,6 +184,41 @@ begin
    dclk <= '1';
    delay(8);
   end loop;
+  din <= '0';
+  dclk <= '0';
+
+  delay(10);
+
+  for i in 0 to cycleLenBits-1 loop
+   dclk <= '0';
+   din <= parmVal(cycleLenBits-1);
+   delay(8);
+   dclk <= '1';
+   parmVal <= shift_left(parmVal, 1);
+   delay(8);
+  end loop;
+  din <= '0';
+  dclk <= '0';
+
+  dsel <= '1';
+  delay(10);
+
+  parmIdx <= XLDINTCYCLE;
+  parmVal <= to_unsigned(intCycle, cycleLenBits);
+
+  dsel <= '0';
+  delay(10);
+
+  for i in 0 to opb-1 loop
+   dclk <= '0';
+   din <= parmIdx(opb-1);
+   parmIdx <= shift_left(parmIdx, 1);
+   delay(8);
+   dclk <= '1';
+   delay(8);
+  end loop;
+  din <= '0';
+  dclk <= '0';
 
   delay(10);
   parmIdx <= XLDINTCYCLE;
@@ -192,14 +226,16 @@ begin
   for i in 0 to cycleLenBits-1 loop
    dclk <= '0';
    din <= parmVal(cycleLenBits-1);
-   parmVal <= shift_left(parmVal, 1);
    delay(8);
    dclk <= '1';
+   parmVal <= shift_left(parmVal, 1);
    delay(8);
   end loop;
+  din <= '0';
+  dclk <= '0';
 
   dsel <= '1';
-
+  
   wait;
  end process;
 

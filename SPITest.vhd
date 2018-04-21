@@ -192,6 +192,7 @@ BEGIN
    dclk <= '1';
    delay(6);
   end loop;
+  dclk <= '0';
 
   delay(10);
 
@@ -203,6 +204,7 @@ BEGIN
    dclk <= '1';
    delay(6);
   end loop;
+  dclk <= '0';
   dsel <= '1';
 
   delay(20);

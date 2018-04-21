@@ -51,7 +51,7 @@ entity Encoder is
   j1_p18 : in std_logic;
 
   jc1 : out std_logic;
-  jc2 : in std_logic;
+  jc2 : out std_logic;
   jc3 : in std_logic;
   jc4 : in std_logic
   );
@@ -69,19 +69,32 @@ architecture Behavioral of Encoder is
  end component;
 
  component SPI
-  generic (op_bits : positive := 8);
+  generic (opBits : positive := 8);
   port (
    clk : in std_logic;
    dclk : in std_logic;
    dsel : in std_logic;
    din : in std_logic;
-   op : inout unsigned (op_bits-1 downto 0);
+   op : inout unsigned (opBits-1 downto 0);
    copy : out std_logic;
    shift : out std_logic;
    load : out std_logic;
    header : inout std_logic
    );
  end component;
+
+ -- component CtlReg is
+ --  generic(opVal : unsigned;
+ --          opb : positive := 8;
+ --          n : positive);
+ --  port (
+ --   clk : in std_logic;
+ --   din : in std_logic;
+ --   op : in unsigned(opb-1 downto 0);
+ --   shift : in std_logic;
+ --   load : in std_logic;
+ --   data : inout  unsigned (n-1 downto 0));
+ -- end component;
 
  component ClockEnable is
   port (
@@ -135,6 +148,17 @@ architecture Behavioral of Encoder is
  alias jb3 : std_logic is j1_p16;
  alias jb4 : std_logic is j1_p18;
 
+constant opb : positive := 8;
+constant opBits : positive := 8;
+
+-- skip register zero
+
+constant XNOOP        : unsigned(opb-1 downto 0) := x"00"; -- register 0
+
+constant XLDENCCYCLE : unsigned (opBits-1 downto 0) := x"01";
+constant XLDINTCYCLE : unsigned (opBits-1 downto 0) := x"02";
+constant XLDCTL : unsigned (opBits-1 downto 0) := x"03";
+
  -- spi interface signals
 
  signal dclk : std_logic;               --data clock
@@ -154,17 +178,13 @@ architecture Behavioral of Encoder is
 
  -- spi interface
 
- constant opb : positive := 8;
-
  constant out_bits : positive := 32;
  signal copy : std_logic;               --copy to output register
  signal dshift : std_logic;             --shift data
  signal load : std_logic;               --load to register
- signal op : unsigned (opb-1 downto 0); --operation code
+ signal op : unsigned (opBits-1 downto 0); --operation code
  signal outReg : unsigned (out_bits-1 downto 0); --output register
  signal header : std_logic;
-
- signal init : std_logic;
 
  -- cmpTmr
 
@@ -187,9 +207,14 @@ architecture Behavioral of Encoder is
  signal clrStartInt : std_logic := '0';
  signal setStartInt : std_logic := '0';
 
- constant XLDENCCYCLE : unsigned(opb-1 downto 0) := x"01";
- constant XLDINTCYCLE : unsigned(opb-1 downto 0) := x"02";
+ -- constant rCtlSize : positive := 2;
+ -- signal rCtlReg : unsigned (rCtlSize-1 downto 0) := "00";
+ -- alias ctlInit : std_logic is rCtlReg(0);
+ -- alias ctlEna  : std_logic is rCtlReg(1);
 
+ signal ctlInit : std_logic;
+ signal ctlEna : std_logic;
+ 
 begin
 
  led(7) <= locked;
@@ -214,7 +239,11 @@ begin
  din  <= jb3;
  dsel <= jb4;
 
- init <= jc4 or jc2;
+ jc1 <= intClk;
+ jc2 <= '0';
+
+ ctlInit <= jc3;
+ ctlEna <= jc4;
 
  -- system clock
 
@@ -246,7 +275,7 @@ begin
  -- spi interface
 
  spi_int : SPI
-  generic map (op_bits => opb)
+  generic map (opBits)
   port map (
    clk => clk1,
    dclk => dclk,
@@ -285,10 +314,22 @@ begin
   end if;
  end process;
 
+ -- rCtl : CtlReg
+ --  generic map (opVal => XLDCTL,
+ --               opb => opb,
+ --               n => rCtlSize)
+ --  port map (
+ --   clk => clk1,
+ --   din => din,
+ --   op => op,
+ --   shift => dshift,
+ --   load => load,
+ --   data => rCtlReg);
+
  start_process: process(clk1)
  begin
   if (rising_edge(clk1)) then           --if clock active
-   if (init = '1') then
+   if (ctlInit = '1') then
     startInt <= '1';
    elsif (setStartInt = '1') then
     startInt <= '1';
@@ -308,8 +349,8 @@ begin
    clk => clk1,
    din => din,
    dshift => dshift,
-   init => init,
-   ena => jc3,
+   init => ctlInit,
+   ena => ctlEna,
    encClk => encClk,
    cycleSel => cmpCycleSel,
    startInt => startInt,
@@ -327,14 +368,12 @@ begin
    clk => clk1,
    din => din,
    dshift => dshift,
-   init => init,
+   init => ctlInit,
    intClk => intClk,
    cycleSel => intCycleSel,
    startInt => startInt,
    setStartInt => setStartInt,
    cycleClocks => cycleClocks
    );
-
- jc1 <= intClk;
 
 end Behavioral;

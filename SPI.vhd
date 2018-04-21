@@ -30,13 +30,13 @@ use IEEE.NUMERIC_STD.ALL;
 --use UNISIM.VComponents.all;
 
 entity SPI is
- generic (op_bits : positive := 8);
+ generic (opBits : positive := 8);
  port (
   clk : in std_logic;                    --system clock
   dclk : in std_logic;                   --spi clk
   dsel : in std_logic;                   --spi select
   din : in std_logic;                    --spi data in
-  op : out unsigned(op_bits-1 downto 0); --op code
+  op : out unsigned(opBits-1 downto 0); --op code
   copy : out std_logic;                  --copy data to be shifted out
   shift : out std_logic;                 --shift data
   load : out std_logic;                  --load data shifted in
@@ -55,12 +55,12 @@ architecture Behavioral of SPI is
    clkena : out std_logic);
  end component;
 
-type spi_fsm is (start, idle, read_hdr, chk_count, dec_count,
-                 active, dclk_wait, load_reg);
+ type spi_fsm is (start, idle, read_hdr, chk_count, upd_count,
+                  active, dclk_wait, load_reg);
  signal state : spi_fsm := start;
 
- signal count : unsigned(2 downto 0) := "000";
- signal opReg : unsigned(op_bits-1 downto 0); --op code
+ signal count : unsigned(3 downto 0) := "1000";
+ signal opReg : unsigned(opbits-1 downto 0); --op code
 
  signal clkena : std_logic;
  constant n : positive := 4;
@@ -115,7 +115,7 @@ begin
      if (dselEna = '1') then
       header <= '1';
       opReg <= "00000000";
-      count <= "111";
+      count <= "1000";
       state <= read_hdr;
      end if;
 
@@ -124,25 +124,25 @@ begin
       state <= idle;
      else
       if (clkena = '1') then
-       opReg <= opReg(op_bits-2 downto 0) & din;
-       state <= chk_count;
+       opReg <= opReg(opBits-2 downto 0) & din;
+       state <= upd_count;
       end if;
      end if;
 
+    when upd_count =>
+     count <= count - 1;
+     state <= chk_count;
+
     when chk_count =>
-     if (count = "000") then
+     if (count = "0000") then
       op <= opReg;
       header <= '0';
       copy <= '1';
       state <= active;
      else
-      state <= dec_count;
+      state <= read_hdr;
      end if;
 
-    when dec_count =>
-     count <= count - 1;
-     state <= read_hdr;
-      
     when active =>
      copy <= '0';
      if (dselDis = '1') then
