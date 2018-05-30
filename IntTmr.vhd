@@ -41,7 +41,7 @@ entity IntTmr is
   intClk : out std_logic;               --output clock
   cycleSel : in std_logic;              --cycle length register select
   startInt : in std_logic;              --start internal timer flag
-  setStartInt : out std_logic;          --set start internal timer flag
+  setStartInt : inout std_logic;        --set start internal timer flag
   cycleClocks: in unsigned (cycleClkBits-1 downto 0) --cycle counter
   );
 end IntTmr;
@@ -137,7 +137,6 @@ architecture Behavioral of IntTmr is
  -- cycle clock counter
 
  signal intCtrLoad : std_logic;
- signal cycCalcUpd : std_logic;
  signal cycleClkClr : std_logic;
  signal cycleClkCtr : unsigned (cycleClkBits-1 downto 0);
 
@@ -235,15 +234,18 @@ begin
    if (init = '1') then                 --initialize variables
     initClear <= '1';
     run <= '0';
+    intClk <= '0';
+    setStartInt <= '0';
    else
     initClear <= '0';
-    if (startInt = '0') and (run = '0') then
+    setStartInt <= cycleDone;
+    intClk <= intClkUpd or (not startInt and not setStartInt and not run);
+    if (startInt = '0') and (setStartInt = '0') and (run = '0') then
      run <= '1';
     elsif (cycleDone = '1') then
      run <= '0';
     end if;
-    intClk <= intClkUpd or (not startInt and not run);
-    setStartInt <= cycleDone;
+
    end if;
   end if;
  end process;

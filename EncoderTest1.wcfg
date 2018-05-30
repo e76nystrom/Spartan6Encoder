@@ -21,7 +21,7 @@
          </top_modules>
       </db_ref>
    </db_ref_list>
-   <WVObjectSize size="28" />
+   <WVObjectSize size="37" />
    <wvobject fp_name="/encodertest/sysclk" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">sysclk</obj_property>
       <obj_property name="ObjectShortName">sysclk</obj_property>
@@ -50,26 +50,9 @@
       <obj_property name="ElementShortName">header</obj_property>
       <obj_property name="ObjectShortName">header</obj_property>
    </wvobject>
-   <wvobject fp_name="/encodertest/uut/spi_int/clk_ena/clkdly" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">clkdly[7:0]</obj_property>
-      <obj_property name="ObjectShortName">clkdly[7:0]</obj_property>
-   </wvobject>
    <wvobject fp_name="/encodertest/uut/spi_int/clkena" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">clkena</obj_property>
       <obj_property name="ObjectShortName">clkena</obj_property>
-   </wvobject>
-   <wvobject fp_name="/encodertest/uut/spi_int/state" type="other" db_ref_id="1">
-      <obj_property name="ElementShortName">state</obj_property>
-      <obj_property name="ObjectShortName">state</obj_property>
-   </wvobject>
-   <wvobject fp_name="/encodertest/uut/spi_int/opreg" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">opreg[7:0]</obj_property>
-      <obj_property name="ObjectShortName">opreg[7:0]</obj_property>
-      <obj_property name="Radix">HEXRADIX</obj_property>
-   </wvobject>
-   <wvobject fp_name="/encodertest/uut/spi_int/count" type="array" db_ref_id="1">
-      <obj_property name="ElementShortName">count[3:0]</obj_property>
-      <obj_property name="ObjectShortName">count[3:0]</obj_property>
    </wvobject>
    <wvobject fp_name="/encodertest/uut/spi_int/op" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">op[7:0]</obj_property>
@@ -107,14 +90,6 @@
       <obj_property name="ElementShortName">ena</obj_property>
       <obj_property name="ObjectShortName">ena</obj_property>
    </wvobject>
-   <wvobject fp_name="/encodertest/uut/cmp_tmr/encclk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">encclk</obj_property>
-      <obj_property name="ObjectShortName">encclk</obj_property>
-   </wvobject>
-   <wvobject fp_name="/encodertest/uut/int_tmr/intclk" type="logic" db_ref_id="1">
-      <obj_property name="ElementShortName">intclk</obj_property>
-      <obj_property name="ObjectShortName">intclk</obj_property>
-   </wvobject>
    <wvobject fp_name="/encodertest/uut/cmp_tmr/enastate" type="other" db_ref_id="1">
       <obj_property name="ElementShortName">enastate</obj_property>
       <obj_property name="ObjectShortName">enastate</obj_property>
@@ -123,16 +98,76 @@
       <obj_property name="ElementShortName">state</obj_property>
       <obj_property name="ObjectShortName">state</obj_property>
    </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/encclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">encclk</obj_property>
+      <obj_property name="ObjectShortName">encclk</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/enccount" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">enccount[15:0]</obj_property>
+      <obj_property name="ObjectShortName">enccount[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/clockcounter" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clockcounter[23:0]</obj_property>
+      <obj_property name="ObjectShortName">clockcounter[23:0]</obj_property>
+   </wvobject>
    <wvobject fp_name="/encodertest/uut/cmp_tmr/cycleclocks" type="array" db_ref_id="1">
       <obj_property name="ElementShortName">cycleclocks[31:0]</obj_property>
       <obj_property name="ObjectShortName">cycleclocks[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/clocktotal" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">clocktotal[31:0]</obj_property>
+      <obj_property name="ObjectShortName">clocktotal[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/cycledone" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">cycledone</obj_property>
+      <obj_property name="ObjectShortName">cycledone</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/cmp_tmr/clrstartint" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">clrstartint</obj_property>
+      <obj_property name="ObjectShortName">clrstartint</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/run" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">run</obj_property>
+      <obj_property name="ObjectShortName">run</obj_property>
    </wvobject>
    <wvobject fp_name="/encodertest/uut/startint" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">startint</obj_property>
       <obj_property name="ObjectShortName">startint</obj_property>
    </wvobject>
-   <wvobject fp_name="/encodertest/uut/cmp_tmr/cycledone" type="logic" db_ref_id="1">
+   <wvobject fp_name="/encodertest/uut/int_tmr/setstartint" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">setstartint</obj_property>
+      <obj_property name="ObjectShortName">setstartint</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/initclear" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">initclear</obj_property>
+      <obj_property name="ObjectShortName">initclear</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/intctrload" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intctrload</obj_property>
+      <obj_property name="ObjectShortName">intctrload</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/intclkupd" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intclkupd</obj_property>
+      <obj_property name="ObjectShortName">intclkupd</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/intcount" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">intcount[15:0]</obj_property>
+      <obj_property name="ObjectShortName">intcount[15:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/cycledone" type="logic" db_ref_id="1">
       <obj_property name="ElementShortName">cycledone</obj_property>
       <obj_property name="ObjectShortName">cycledone</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/cycleclkctr" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclkctr[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclkctr[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/cycleclkrem" type="array" db_ref_id="1">
+      <obj_property name="ElementShortName">cycleclkrem[31:0]</obj_property>
+      <obj_property name="ObjectShortName">cycleclkrem[31:0]</obj_property>
+   </wvobject>
+   <wvobject fp_name="/encodertest/uut/int_tmr/intclk" type="logic" db_ref_id="1">
+      <obj_property name="ElementShortName">intclk</obj_property>
+      <obj_property name="ObjectShortName">intclk</obj_property>
    </wvobject>
 </wave_config>

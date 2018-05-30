@@ -51,7 +51,7 @@ entity Encoder is
   j1_p18 : in std_logic;
 
   jc1 : out std_logic;
-  jc2 : out std_logic;
+  jc2 : in std_logic;
   jc3 : in std_logic;
   jc4 : in std_logic
   );
@@ -133,7 +133,7 @@ architecture Behavioral of Encoder is
    intClk : inout std_logic;           --output clock
    cycleSel : in std_logic;            --cycle length register select
    startInt : in std_logic;            --start internal timer flag
-   setStartInt : out std_logic;        --set start internal timer flag
+   setStartInt : inout std_logic;      --set start internal timer flag
    cycleClocks: in unsigned (cycleClkBits-1 downto 0) --cycle counter
    );
  end component;
@@ -240,8 +240,8 @@ begin
  dsel <= jb4;
 
  jc1 <= intClk;
- jc2 <= '0';
 
+ 
  ctlInit <= jc3;
  ctlEna <= jc4;
 
@@ -264,13 +264,15 @@ begin
   end if;
  end process;
 
- -- test clock
+ -- -- test clock
 
- testEncClk : ClockEnable
-  port map (
-   clk => clk1,
-   ena => div(20),
-   clkena =>encClk);
+ -- testEncClk : ClockEnable
+ --  port map (
+ --   clk => clk1,
+ --   ena => div(20),
+ --   clkena => encClk);
+
+ encClk <= jc2;
 
  -- spi interface
 

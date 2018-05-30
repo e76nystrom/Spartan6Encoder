@@ -44,15 +44,15 @@ ARCHITECTURE behavior OF IntTmrTest IS
    encClkBits : positive;
    cycleClkbits : positive);
   PORT(
-   clk : IN  std_logic;
-   din : IN  std_logic;
-   dshift : IN  std_logic;
-   init : IN  std_logic;
-   intClk : out  std_logic;
-   cycleSel : IN  std_logic;
-   startInt : IN  std_logic;
-   setStartInt : OUT  std_logic;
-   cycleClocks : IN  unsigned(cycleClkBits-1 downto 0)
+   clk : in std_logic;
+   din : in std_logic;
+   dshift : in std_logic;
+   init : in std_logic;
+   intClk : out std_logic;
+   cycleSel : in std_logic;
+   startInt : in std_logic;
+   setStartInt : inout std_logic;
+   cycleClocks : in unsigned(cycleClkBits-1 downto 0)
    );
  END COMPONENT;
  
@@ -128,10 +128,11 @@ BEGIN
  stim_proc: process
  begin		
   -- hold reset state for 100 ns.
+  init <= '1';
   wait for 100 ns;	
 
   wait for clk_period*10;
-
+  
   -- insert stimulus here 
 
   delay(5);
